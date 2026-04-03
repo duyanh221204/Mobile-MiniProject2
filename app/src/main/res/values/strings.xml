@@ -32,4 +32,19 @@
     <string name="total_paid">TOTAL PAID</string>
     <string name="delivery_status">DELIVERY STATUS</string>
     <string name="order_id_label">ORDER ID</string>
+    <string name="order_placed">Order placed successfully!</string>
+    <string name="select_payment_method">Select Payment Method</string>
+    <string name="how_to_pay">How would you like to pay?</string>
+    <string name="vnpay">VNPAY</string>
+    <string name="momo_ewallet">MoMo E-wallet</string>
+    <string name="order_total_label">Order Total:</string>
+    <string name="proceed_to_pay">Proceed to Pay</string>
+    <string name="confirm_payment">Confirm Payment</string>
+    <string name="enter_pin_code">Enter PIN Code</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="please_select_payment">Please select a payment method.</string>
+    <string name="payment_confirmed">Payment successful!</string>
+    <string name="pin_incorrect">Incorrect PIN. Please try again.</string>
+    <string name="pin_empty">Please enter your PIN.</string>
 </resources>

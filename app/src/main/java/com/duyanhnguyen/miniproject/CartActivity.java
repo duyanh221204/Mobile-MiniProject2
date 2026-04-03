@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +45,9 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.L
     private Button btnPlaceOrder;
     private RecyclerView rvCart;
 
+    private double pendingGrandTotal = 0;
+    private ActivityResultLauncher<Intent> paymentLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,15 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.L
 
         db = AppDatabase.getInstance(this);
         sessionManager = new SessionManager(this);
+
+        paymentLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        confirmOrder(pendingGrandTotal);
+                    }
+                }
+        );
 
         tvSubtotal = findViewById(R.id.tvSubtotal);
         tvDelivery = findViewById(R.id.tvDelivery);
@@ -168,7 +182,15 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.L
             }
         }
         double tax = subtotal * TAX_RATE;
-        double grandTotal = subtotal + DELIVERY_FEE + tax;
+        pendingGrandTotal = subtotal + DELIVERY_FEE + tax;
+
+        Intent i = new Intent(this, SelectPaymentActivity.class);
+        i.putExtra(SelectPaymentActivity.EXTRA_GRAND_TOTAL, pendingGrandTotal);
+        paymentLauncher.launch(i);
+    }
+
+    private void confirmOrder(double grandTotal) {
+        List<CartManager.Line> lines = CartManager.getInstance(this).getLines();
 
         String orderDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         int userId = sessionManager.getUserId();
@@ -185,7 +207,7 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.L
         }
 
         CartManager.getInstance(this).clear();
-        Toast.makeText(this, "Order placed!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.order_placed, Toast.LENGTH_SHORT).show();
 
         Intent detail = new Intent(this, InvoiceDetailActivity.class);
         detail.putExtra(InvoiceDetailActivity.EXTRA_ORDER_ID, newOrderId);

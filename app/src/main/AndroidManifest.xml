@@ -56,6 +56,14 @@
             android:name=".InvoiceDetailActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".SelectPaymentActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".PaymentConfirmActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
