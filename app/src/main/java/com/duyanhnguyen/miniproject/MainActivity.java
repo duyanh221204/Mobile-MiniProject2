@@ -111,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
             if (itemId == R.id.nav_home) {
                 loadTodayProducts();
                 return true;
+            } else if (itemId == R.id.nav_categories) {
+                startActivity(new Intent(this, CategoryActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
             } else if (itemId == R.id.nav_profile) {
                 // Logout
                 sessionManager.logout();

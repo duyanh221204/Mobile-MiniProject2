@@ -1,6 +1,7 @@
 package com.duyanhnguyen.miniproject.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 Toast.makeText(context, product.getProductName() + " added!", Toast.LENGTH_SHORT).show());
         holder.ivAddIcon.setOnClickListener(v ->
                 Toast.makeText(context, product.getProductName() + " added!", Toast.LENGTH_SHORT).show());
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, com.duyanhnguyen.miniproject.ProductDetailActivity.class);
+            intent.putExtra("PRODUCT_ID", product.getProductId());
+            context.startActivity(intent);
+        });
     }
 
     @Override
