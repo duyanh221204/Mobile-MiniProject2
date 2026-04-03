@@ -9,7 +9,7 @@ import com.duyanhnguyen.miniproject.database.entity.OrderDetail;
 import java.util.List;
 
 @Dao
-public interface giOrderDetailDao {
+public interface OrderDetailDao {
     @Insert
     long insert(OrderDetail orderDetail);
 

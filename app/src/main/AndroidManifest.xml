@@ -34,6 +34,16 @@
             android:name=".MainActivity"
             android:exported="false" />
 
+        <!-- Category Full List Screen -->
+        <activity
+            android:name=".CategoryActivity"
+            android:exported="false" />
+
+        <!-- Product Detail Screen -->
+        <activity
+            android:name=".ProductDetailActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
