@@ -83,9 +83,10 @@ public class MainActivity extends AppCompatActivity {
     private void loadCategories() {
         List<Category> categories = db.categoryDao().getAllCategories();
         CategoryAdapter categoryAdapter = new CategoryAdapter(this, categories, category -> {
-            List<Product> filtered = db.productDao().getProductsByCategory(category.getCategoryId());
-            productAdapter.updateList(filtered);
-            Toast.makeText(this, category.getCategoryName(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, CategoryProductsActivity.class);
+            intent.putExtra(CategoryProductsActivity.EXTRA_CATEGORY_ID, category.getCategoryId());
+            intent.putExtra(CategoryProductsActivity.EXTRA_CATEGORY_NAME, category.getCategoryName());
+            startActivity(intent);
         });
         rvCategories.setAdapter(categoryAdapter);
     }
@@ -149,9 +150,8 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 return true;
             } else if (itemId == R.id.nav_profile) {
-                // Logout
-                sessionManager.logout();
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, ProfileActivity.class));
+                overridePendingTransition(0, 0);
                 finish();
                 return true;
             }

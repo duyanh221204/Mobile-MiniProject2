@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.duyanhnguyen.miniproject.R;
 import com.duyanhnguyen.miniproject.database.entity.Category;
+import com.duyanhnguyen.miniproject.utils.ProductImages;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +61,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             holder.ivCategoryImage.setBackgroundColor(color);
         }
 
-        holder.ivCategoryImage.setImageResource(android.R.drawable.ic_menu_gallery);
+        holder.ivCategoryImage.setImageResource(ProductImages.getCategoryResId(category.getImageUrl()));
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

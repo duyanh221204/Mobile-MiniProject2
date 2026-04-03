@@ -26,7 +26,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private int quantity = 1;
     private Product currentProduct;
 
-    private TextView tvQuantity, tvDetailName, tvDetailPrice, tvDetailUnit, tvDetailDesc;
+    private TextView tvQuantity, tvDetailName, tvDetailPrice, tvDetailUnit, tvDetailDesc, tvDateAdded, tvExpiryDate;
     private ImageView ivDetailImage, ivPlus, ivMinus, ivBack;
     private Button btnAddToCart;
     private LinearLayout llHeaderBg;
@@ -56,6 +56,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvDetailPrice = findViewById(R.id.tvDetailPrice);
         tvDetailUnit = findViewById(R.id.tvDetailUnit);
         tvDetailDesc = findViewById(R.id.tvDetailDesc);
+        tvDateAdded = findViewById(R.id.tvDateAdded);
+        tvExpiryDate = findViewById(R.id.tvExpiryDate);
         tvQuantity = findViewById(R.id.tvQuantity);
         
         ivDetailImage = findViewById(R.id.ivDetailImage);
@@ -126,6 +128,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvDetailPrice.setText(String.format(Locale.US, "$%.2f", currentProduct.getPrice()));
         tvDetailUnit.setText(String.format("/ %s", currentProduct.getUnit()));
         tvDetailDesc.setText(currentProduct.getDescription());
+        tvDateAdded.setText(currentProduct.getDateAdded() != null ? currentProduct.getDateAdded() : "N/A");
+        tvExpiryDate.setText(currentProduct.getExpiryDate() != null ? currentProduct.getExpiryDate() : "N/A");
         updateQuantityDisplay();
         
         ivDetailImage.setImageResource(ProductImages.getResId(currentProduct.getImageUrl()));
@@ -166,8 +170,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                 finish();
                 return true;
             } else if (itemId == R.id.nav_profile) {
-                sessionManager.logout();
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, ProfileActivity.class));
+                overridePendingTransition(0, 0);
                 finish();
                 return true;
             }

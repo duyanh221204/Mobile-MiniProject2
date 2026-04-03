@@ -12,26 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.duyanhnguyen.miniproject.R;
 import com.duyanhnguyen.miniproject.database.entity.Category;
+import com.duyanhnguyen.miniproject.utils.ProductImages;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CategoryGridAdapter extends RecyclerView.Adapter<CategoryGridAdapter.CategoryViewHolder> {
 
     private final Context context;
     private final List<Category> categoryList;
     private final OnCategoryClickListener listener;
-
-    private static final Map<String, Integer> CATEGORY_IMAGE_MAP = new HashMap<>();
-
-    static {
-        CATEGORY_IMAGE_MAP.put("apple", android.R.drawable.ic_menu_gallery);
-        CATEGORY_IMAGE_MAP.put("citrus", android.R.drawable.ic_menu_gallery);
-        CATEGORY_IMAGE_MAP.put("berries", android.R.drawable.ic_menu_gallery);
-        CATEGORY_IMAGE_MAP.put("tropical", android.R.drawable.ic_menu_gallery);
-        CATEGORY_IMAGE_MAP.put("melons", android.R.drawable.ic_menu_gallery);
-    }
 
     public interface OnCategoryClickListener {
         void onCategoryClick(Category category);
@@ -55,13 +44,7 @@ public class CategoryGridAdapter extends RecyclerView.Adapter<CategoryGridAdapte
         Category category = categoryList.get(position);
         holder.tvCategoryName.setText(category.getCategoryName());
 
-        // Use same image logic as CategoryAdapter
-        Integer resId = CATEGORY_IMAGE_MAP.get(category.getImageUrl());
-        if (resId != null) {
-            holder.ivCategoryImage.setImageResource(resId);
-        } else {
-            holder.ivCategoryImage.setImageResource(android.R.drawable.ic_menu_gallery);
-        }
+        holder.ivCategoryImage.setImageResource(ProductImages.getCategoryResId(category.getImageUrl()));
 
         holder.itemView.setOnClickListener(v -> listener.onCategoryClick(category));
     }
