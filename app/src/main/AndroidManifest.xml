@@ -63,11 +63,14 @@
 
         <activity
             android:name=".ProfileActivity"
-            android:name=".SelectPaymentActivity"
+
             android:exported="false" />
 
         <activity
             android:name=".PaymentConfirmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SelectPaymentActivity"
             android:exported="false" />
 
     </application>
