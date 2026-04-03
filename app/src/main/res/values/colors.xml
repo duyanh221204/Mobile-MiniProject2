@@ -37,4 +37,8 @@
 
     <!-- Splash -->
     <color name="splash_bg">#FFFFFF</color>
+
+    <!-- Payment methods -->
+    <color name="vnpay_blue">#005BAC</color>
+    <color name="momo_pink">#AE2070</color>
 </resources>
