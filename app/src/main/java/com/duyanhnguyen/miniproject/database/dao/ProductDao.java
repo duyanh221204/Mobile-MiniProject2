@@ -13,17 +13,17 @@ public interface ProductDao {
     @Insert
     long insert(Product product);
 
-    @Query("SELECT * FROM Products")
-    List<Product> getAllProducts();
+    @Query("SELECT * FROM Products WHERE expiryDate >= :today OR expiryDate IS NULL")
+    List<Product> getAllProducts(String today);
 
-    @Query("SELECT * FROM Products WHERE dateAdded = :date")
-    List<Product> getProductsByDate(String date);
+    @Query("SELECT * FROM Products WHERE dateAdded = :date AND (expiryDate >= :today OR expiryDate IS NULL)")
+    List<Product> getProductsByDate(String date, String today);
 
-    @Query("SELECT * FROM Products WHERE categoryId = :categoryId")
-    List<Product> getProductsByCategory(int categoryId);
+    @Query("SELECT * FROM Products WHERE categoryId = :categoryId AND (expiryDate >= :today OR expiryDate IS NULL)")
+    List<Product> getProductsByCategory(int categoryId, String today);
 
-    @Query("SELECT * FROM Products WHERE productName LIKE '%' || :keyword || '%'")
-    List<Product> searchProducts(String keyword);
+    @Query("SELECT * FROM Products WHERE productName LIKE '%' || :keyword || '%' AND (expiryDate >= :today OR expiryDate IS NULL)")
+    List<Product> searchProducts(String keyword, String today);
 
     @Query("SELECT * FROM Products WHERE productId = :id")
     Product getProductById(int id);

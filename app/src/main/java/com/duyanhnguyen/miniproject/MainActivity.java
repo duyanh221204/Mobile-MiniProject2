@@ -91,13 +91,17 @@ public class MainActivity extends AppCompatActivity {
         rvCategories.setAdapter(categoryAdapter);
     }
 
-    private void loadTodayProducts() {
-        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        List<Product> products = db.productDao().getProductsByDate(today);
+    private String getToday() {
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+    }
 
-        // If no products for today, show all products
+    private void loadTodayProducts() {
+        String today = getToday();
+        List<Product> products = db.productDao().getProductsByDate(today, today);
+
+        // If no products for today, show all non-expired products
         if (products.isEmpty()) {
-            products = db.productDao().getAllProducts();
+            products = db.productDao().getAllProducts(today);
         }
 
         productAdapter = new ProductAdapter(this, products);
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 if (query.isEmpty()) {
                     loadTodayProducts();
                 } else {
-                    List<Product> results = db.productDao().searchProducts(query);
+                    List<Product> results = db.productDao().searchProducts(query, getToday());
                     productAdapter.updateList(results);
                 }
             }

@@ -99,28 +99,12 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void loadProductData(int productId) {
-        new Thread(() -> {
-            // Note: Since AppDatabase might not allow main thread queries, running in worker
-            // but for starter apps it's sometimes main thread OK. Let's do main thread for simplicity 
-            // if AppDatabase allowed it. Here we assume it allows or run thread.
-            runOnUiThread(() -> {
-                try {
-                    currentProduct = db.productDao().getAllProducts().stream()
-                            .filter(p -> p.getProductId() == productId)
-                            .findFirst()
-                            .orElse(null);
-                            
-                    if (currentProduct != null) {
-                        displayProduct();
-                    } else {
-                        Toast.makeText(this, "Product not found!", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        }).start();
+        currentProduct = db.productDao().getProductById(productId);
+        if (currentProduct != null) {
+            displayProduct();
+        } else {
+            finish();
+        }
     }
 
     private void displayProduct() {

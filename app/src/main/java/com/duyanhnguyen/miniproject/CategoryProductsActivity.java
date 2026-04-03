@@ -54,7 +54,8 @@ public class CategoryProductsActivity extends AppCompatActivity {
         LinearLayout layoutEmpty = findViewById(R.id.layoutEmpty);
         rvProducts.setLayoutManager(new GridLayoutManager(this, 2));
 
-        List<Product> products = db.productDao().getProductsByCategory(categoryId);
+        String today = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(new java.util.Date());
+        List<Product> products = db.productDao().getProductsByCategory(categoryId, today);
 
         if (products.isEmpty()) {
             rvProducts.setVisibility(View.GONE);
