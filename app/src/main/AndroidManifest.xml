@@ -44,6 +44,18 @@
             android:name=".ProductDetailActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".OrderHistoryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".InvoiceDetailActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

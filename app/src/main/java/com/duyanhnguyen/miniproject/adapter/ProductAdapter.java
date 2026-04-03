@@ -14,28 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.duyanhnguyen.miniproject.R;
 import com.duyanhnguyen.miniproject.database.entity.Product;
+import com.duyanhnguyen.miniproject.utils.CartManager;
+import com.duyanhnguyen.miniproject.utils.ProductImages;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private final Context context;
     private List<Product> productList;
-    private static final Map<String, Integer> IMAGE_MAP = new HashMap<>();
-
-    static {
-        IMAGE_MAP.put("grapefruit", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("blueberries", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("mango", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("apple", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("orange", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("strawberry", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("banana", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("watermelon", android.R.drawable.ic_menu_gallery);
-    }
 
     public ProductAdapter(Context context, List<Product> productList) {
         this.context = context;
@@ -63,19 +51,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.tvUnit.setText(String.format("/ %s", product.getUnit()));
 
         // Set product image based on imageUrl key
-        Integer resId = IMAGE_MAP.get(product.getImageUrl());
-        if (resId != null) {
-            holder.ivProductImage.setImageResource(resId);
-        }
+        holder.ivProductImage.setImageResource(ProductImages.getResId(product.getImageUrl()));
 
         // Set background color based on product type
         int[] colors = {0xFFFFF3E0, 0xFFE8F5E9, 0xFFFCE4EC, 0xFFF3E5F5, 0xFFE3F2FD, 0xFFFFF9C4, 0xFFE0F7FA, 0xFFFFEBEE};
         holder.ivProductImage.setBackgroundColor(colors[position % colors.length]);
 
-        holder.btnAdd.setOnClickListener(v ->
-                Toast.makeText(context, product.getProductName() + " added!", Toast.LENGTH_SHORT).show());
-        holder.ivAddIcon.setOnClickListener(v ->
-                Toast.makeText(context, product.getProductName() + " added!", Toast.LENGTH_SHORT).show());
+        holder.btnAdd.setOnClickListener(v -> addOneToCart(product));
+        holder.ivAddIcon.setOnClickListener(v -> addOneToCart(product));
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, com.duyanhnguyen.miniproject.ProductDetailActivity.class);
@@ -87,6 +70,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public int getItemCount() {
         return productList != null ? productList.size() : 0;
+    }
+
+    private void addOneToCart(Product product) {
+        CartManager.getInstance(context).addProduct(product.getProductId(), 1);
+        Toast.makeText(context, product.getProductName() + " added to cart", Toast.LENGTH_SHORT).show();
     }
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {

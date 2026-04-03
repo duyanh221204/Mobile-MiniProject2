@@ -14,6 +14,10 @@ import com.duyanhnguyen.miniproject.utils.SessionManager;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String EXTRA_REDIRECT = "redirect";
+    public static final String REDIRECT_CART = "cart";
+    public static final String REDIRECT_ORDERS = "orders";
+
     private EditText etUsername, etPassword;
     private AppDatabase db;
     private SessionManager sessionManager;
@@ -46,7 +50,16 @@ public class LoginActivity extends AppCompatActivity {
         if (user != null) {
             sessionManager.createLoginSession(user.getUserId(), user.getUsername(), user.getFullName());
             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, MainActivity.class));
+            String redirect = getIntent().getStringExtra(EXTRA_REDIRECT);
+            Intent next;
+            if (REDIRECT_CART.equals(redirect)) {
+                next = new Intent(this, CartActivity.class);
+            } else if (REDIRECT_ORDERS.equals(redirect)) {
+                next = new Intent(this, OrderHistoryActivity.class);
+            } else {
+                next = new Intent(this, MainActivity.class);
+            }
+            startActivity(next);
             finish();
         } else {
             Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show();
