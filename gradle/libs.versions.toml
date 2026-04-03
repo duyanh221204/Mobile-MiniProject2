@@ -11,6 +11,7 @@ room = "2.6.1"
 recyclerview = "1.3.2"
 cardview = "1.0.0"
 glide = "4.16.0"
+roomCommonJvm = "2.8.4"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -25,6 +26,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
