@@ -12,12 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.duyanhnguyen.miniproject.database.AppDatabase;
 import com.duyanhnguyen.miniproject.database.entity.Product;
+import com.duyanhnguyen.miniproject.utils.CartManager;
+import com.duyanhnguyen.miniproject.utils.ProductImages;
 import com.duyanhnguyen.miniproject.utils.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -30,19 +30,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ImageView ivDetailImage, ivPlus, ivMinus, ivBack;
     private Button btnAddToCart;
     private LinearLayout llHeaderBg;
-
-    private static final Map<String, Integer> IMAGE_MAP = new HashMap<>();
-
-    static {
-        IMAGE_MAP.put("grapefruit", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("blueberries", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("mango", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("apple", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("orange", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("strawberry", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("banana", android.R.drawable.ic_menu_gallery);
-        IMAGE_MAP.put("watermelon", android.R.drawable.ic_menu_gallery);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +82,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         btnAddToCart.setOnClickListener(v -> {
             if (currentProduct != null) {
+                CartManager.getInstance(this).addProduct(currentProduct.getProductId(), quantity);
                 Toast.makeText(this, "Added " + quantity + " " + currentProduct.getUnit() + " of " + currentProduct.getProductName() + " to cart", Toast.LENGTH_SHORT).show();
             }
         });
@@ -140,12 +128,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvDetailDesc.setText(currentProduct.getDescription());
         updateQuantityDisplay();
         
-        Integer resId = IMAGE_MAP.get(currentProduct.getImageUrl());
-        if (resId != null) {
-            ivDetailImage.setImageResource(resId);
-        } else {
-            ivDetailImage.setImageResource(android.R.drawable.ic_menu_gallery);
-        }
+        ivDetailImage.setImageResource(ProductImages.getResId(currentProduct.getImageUrl()));
         
         // Background matching category logic
         int categoryId = currentProduct.getCategoryId();
@@ -169,6 +152,16 @@ public class ProductDetailActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.nav_categories) {
                 startActivity(new Intent(this, CategoryActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            } else if (itemId == R.id.nav_cart) {
+                startActivity(new Intent(this, CartActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            } else if (itemId == R.id.nav_orders) {
+                startActivity(new Intent(this, OrderHistoryActivity.class));
                 overridePendingTransition(0, 0);
                 finish();
                 return true;

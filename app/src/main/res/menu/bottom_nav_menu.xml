@@ -9,6 +9,10 @@
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:title="@string/categories" />
     <item
+        android:id="@+id/nav_cart"
+        android:icon="@drawable/ic_nav_cart"
+        android:title="@string/cart" />
+    <item
         android:id="@+id/nav_orders"
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="@string/orders" />

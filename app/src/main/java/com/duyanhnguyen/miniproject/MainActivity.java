@@ -17,7 +17,9 @@ import com.duyanhnguyen.miniproject.adapter.ProductAdapter;
 import com.duyanhnguyen.miniproject.database.AppDatabase;
 import com.duyanhnguyen.miniproject.database.entity.Category;
 import com.duyanhnguyen.miniproject.database.entity.Product;
+import com.duyanhnguyen.miniproject.utils.CartManager;
 import com.duyanhnguyen.miniproject.utils.SessionManager;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
@@ -45,6 +47,26 @@ public class MainActivity extends AppCompatActivity {
         loadTodayProducts();
         setupSearch();
         setupBottomNav();
+        updateCartBadge();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCartBadge();
+    }
+
+    private void updateCartBadge() {
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+        if (bottomNav == null) return;
+        int count = CartManager.getInstance(this).getTotalItemCount();
+        BadgeDrawable badge = bottomNav.getOrCreateBadge(R.id.nav_cart);
+        if (count > 0) {
+            badge.setVisible(true);
+            badge.setNumber(count);
+        } else {
+            badge.setVisible(false);
+        }
     }
 
     private void initViews() {
@@ -113,6 +135,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.nav_categories) {
                 startActivity(new Intent(this, CategoryActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            } else if (itemId == R.id.nav_cart) {
+                startActivity(new Intent(this, CartActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            } else if (itemId == R.id.nav_orders) {
+                startActivity(new Intent(this, OrderHistoryActivity.class));
                 overridePendingTransition(0, 0);
                 finish();
                 return true;
