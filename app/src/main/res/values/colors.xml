@@ -2,4 +2,39 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary Green Theme -->
+    <color name="green_primary">#4CAF50</color>
+    <color name="green_primary_dark">#388E3C</color>
+    <color name="green_light">#81C784</color>
+    <color name="green_accent">#66BB6A</color>
+    <color name="green_button">#4CAF50</color>
+    <color name="green_gradient_start">#66BB6A</color>
+    <color name="green_gradient_end">#43A047</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_green">#388E3C</color>
+    <color name="text_orange">#FF6D00</color>
+
+    <!-- Background -->
+    <color name="bg_light">#F5F5F5</color>
+    <color name="bg_white">#FFFFFF</color>
+    <color name="bg_card">#FFFFFF</color>
+
+    <!-- Category Colors -->
+    <color name="category_citrus">#FFF3E0</color>
+    <color name="category_berries">#FCE4EC</color>
+    <color name="category_tropical">#FFF9C4</color>
+    <color name="category_melons">#E8F5E9</color>
+    <color name="category_apples">#FFEBEE</color>
+
+    <!-- Input -->
+    <color name="input_border">#C8E6C9</color>
+    <color name="input_bg">#FFFFFF</color>
+
+    <!-- Splash -->
+    <color name="splash_bg">#FFFFFF</color>
 </resources>
