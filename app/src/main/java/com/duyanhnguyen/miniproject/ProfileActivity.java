@@ -2,38 +2,32 @@ package com.duyanhnguyen.miniproject;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.duyanhnguyen.miniproject.adapter.CategoryGridAdapter;
 import com.duyanhnguyen.miniproject.database.AppDatabase;
-import com.duyanhnguyen.miniproject.database.entity.Category;
+import com.duyanhnguyen.miniproject.database.entity.User;
 import com.duyanhnguyen.miniproject.utils.CartManager;
 import com.duyanhnguyen.miniproject.utils.SessionManager;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.List;
+public class ProfileActivity extends AppCompatActivity {
 
-public class CategoryActivity extends AppCompatActivity {
-
-    private AppDatabase db;
-    private RecyclerView rvCategoryGrid;
     private SessionManager sessionManager;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
+        setContentView(R.layout.activity_profile);
 
-        db = AppDatabase.getInstance(this);
         sessionManager = new SessionManager(this);
+        db = AppDatabase.getInstance(this);
 
-        initViews();
-        loadCategories();
+        loadUserInfo();
+        setupLogout();
         setupBottomNav();
         updateCartBadge();
     }
@@ -42,6 +36,39 @@ public class CategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateCartBadge();
+    }
+
+    private void loadUserInfo() {
+        int userId = sessionManager.getUserId();
+        User user = db.userDao().getUserById(userId);
+
+        TextView tvFullName = findViewById(R.id.tvProfileFullName);
+        TextView tvUsername = findViewById(R.id.tvProfileUsername);
+        TextView tvEmail = findViewById(R.id.tvProfileEmail);
+        TextView tvPhone = findViewById(R.id.tvProfilePhone);
+        TextView tvUserId = findViewById(R.id.tvProfileUserId);
+
+        if (user != null) {
+            tvFullName.setText(user.getFullName());
+            tvUsername.setText("@" + user.getUsername());
+            tvEmail.setText(user.getEmail());
+            tvPhone.setText(user.getPhone());
+            tvUserId.setText("#" + user.getUserId());
+        } else {
+            tvFullName.setText(sessionManager.getFullName());
+            tvUsername.setText("@" + sessionManager.getUsername());
+            tvEmail.setText("N/A");
+            tvPhone.setText("N/A");
+            tvUserId.setText("#" + userId);
+        }
+    }
+
+    private void setupLogout() {
+        findViewById(R.id.btnLogout).setOnClickListener(v -> {
+            sessionManager.logout();
+            startActivity(new Intent(this, LoginActivity.class));
+            finishAffinity();
+        });
     }
 
     private void updateCartBadge() {
@@ -57,35 +84,18 @@ public class CategoryActivity extends AppCompatActivity {
         }
     }
 
-    private void initViews() {
-        rvCategoryGrid = findViewById(R.id.rvCategoryGrid);
-        rvCategoryGrid.setLayoutManager(new GridLayoutManager(this, 2));
-
-        ImageView ivBack = findViewById(R.id.ivBack);
-        ivBack.setOnClickListener(v -> {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        });
-    }
-
-    private void loadCategories() {
-        List<Category> categories = db.categoryDao().getAllCategories();
-        CategoryGridAdapter adapter = new CategoryGridAdapter(this, categories, category -> {
-            Intent intent = new Intent(this, CategoryProductsActivity.class);
-            intent.putExtra(CategoryProductsActivity.EXTRA_CATEGORY_ID, category.getCategoryId());
-            intent.putExtra(CategoryProductsActivity.EXTRA_CATEGORY_NAME, category.getCategoryName());
-            startActivity(intent);
-        });
-        rvCategoryGrid.setAdapter(adapter);
-    }
-
     private void setupBottomNav() {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-        bottomNav.setSelectedItemId(R.id.nav_categories);
+        bottomNav.setSelectedItemId(R.id.nav_profile);
         bottomNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_home) {
                 startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            } else if (itemId == R.id.nav_categories) {
+                startActivity(new Intent(this, CategoryActivity.class));
                 overridePendingTransition(0, 0);
                 finish();
                 return true;
@@ -96,11 +106,6 @@ public class CategoryActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.nav_orders) {
                 startActivity(new Intent(this, OrderHistoryActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (itemId == R.id.nav_profile) {
-                startActivity(new Intent(this, ProfileActivity.class));
                 overridePendingTransition(0, 0);
                 finish();
                 return true;

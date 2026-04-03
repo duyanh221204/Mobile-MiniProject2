@@ -20,11 +20,12 @@ import com.duyanhnguyen.miniproject.database.entity.Product;
 import com.duyanhnguyen.miniproject.database.entity.User;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Category.class, Product.class, Order.class, OrderDetail.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Category.class, Product.class, Order.class, OrderDetail.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
@@ -42,6 +43,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "fruit_app_db")
                             .allowMainThreadQueries()
+                            .fallbackToDestructiveMigration()
                             .addCallback(new RoomDatabase.Callback() {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -57,6 +59,18 @@ public abstract class AppDatabase extends RoomDatabase {
             }
         }
         return INSTANCE;
+    }
+
+    private static String addDays(String baseDate, int days) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        try {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(sdf.parse(baseDate));
+            cal.add(Calendar.DAY_OF_MONTH, days);
+            return sdf.format(cal.getTime());
+        } catch (Exception e) {
+            return baseDate;
+        }
     }
 
     private static void seedData(AppDatabase db) {
@@ -79,14 +93,14 @@ public abstract class AppDatabase extends RoomDatabase {
         db.categoryDao().insert(melons);
         db.categoryDao().insert(apples);
 
-        // Seed products (today's specials)
-        db.productDao().insert(new Product("Ruby Red Grapefruit", 7.00, "kg", "grapefruit", "Fresh ruby red grapefruit", 1, today));
-        db.productDao().insert(new Product("Organic Blueberries", 5.00, "unit", "blueberries", "Organic fresh blueberries", 2, today));
-        db.productDao().insert(new Product("Sweet Mangoes", 1.00, "kg", "mango", "Sweet ripe mangoes", 3, today));
-        db.productDao().insert(new Product("Honeycrisp Apples", 7.00, "unit", "apple", "Crispy and sweet apples", 5, today));
-        db.productDao().insert(new Product("Fresh Oranges", 3.50, "kg", "orange", "Juicy fresh oranges", 1, today));
-        db.productDao().insert(new Product("Strawberries", 4.00, "unit", "strawberry", "Sweet fresh strawberries", 2, today));
-        db.productDao().insert(new Product("Ripe Bananas", 2.00, "kg", "banana", "Perfectly ripe bananas", 3, today));
-        db.productDao().insert(new Product("Watermelon", 6.00, "unit", "watermelon", "Sweet juicy watermelon", 4, today));
+        // Seed products (today's specials) with expiryDate
+        db.productDao().insert(new Product("Ruby Red Grapefruit", 7.00, "kg", "grapefruit", "Fresh ruby red grapefruit", 1, today, addDays(today, 14)));
+        db.productDao().insert(new Product("Organic Blueberries", 5.00, "unit", "blueberries", "Organic fresh blueberries", 2, today, addDays(today, 7)));
+        db.productDao().insert(new Product("Sweet Mangoes", 1.00, "kg", "mango", "Sweet ripe mangoes", 3, today, addDays(today, 10)));
+        db.productDao().insert(new Product("Honeycrisp Apples", 7.00, "unit", "apple", "Crispy and sweet apples", 5, today, addDays(today, 21)));
+        db.productDao().insert(new Product("Fresh Oranges", 3.50, "kg", "orange", "Juicy fresh oranges", 1, today, addDays(today, 14)));
+        db.productDao().insert(new Product("Strawberries", 4.00, "unit", "strawberry", "Sweet fresh strawberries", 2, today, addDays(today, 5)));
+        db.productDao().insert(new Product("Ripe Bananas", 2.00, "kg", "banana", "Perfectly ripe bananas", 3, today, addDays(today, 7)));
+        db.productDao().insert(new Product("Watermelon", 6.00, "unit", "watermelon", "Sweet juicy watermelon", 4, today, addDays(today, 10)));
     }
 }

@@ -39,6 +39,11 @@
             android:name=".CategoryActivity"
             android:exported="false" />
 
+        <!-- Category Products Screen -->
+        <activity
+            android:name=".CategoryProductsActivity"
+            android:exported="false" />
+
         <!-- Product Detail Screen -->
         <activity
             android:name=".ProductDetailActivity"
@@ -57,6 +62,7 @@
             android:exported="false" />
 
         <activity
+            android:name=".ProfileActivity"
             android:name=".SelectPaymentActivity"
             android:exported="false" />
 

@@ -83,20 +83,25 @@ public class MainActivity extends AppCompatActivity {
     private void loadCategories() {
         List<Category> categories = db.categoryDao().getAllCategories();
         CategoryAdapter categoryAdapter = new CategoryAdapter(this, categories, category -> {
-            List<Product> filtered = db.productDao().getProductsByCategory(category.getCategoryId());
-            productAdapter.updateList(filtered);
-            Toast.makeText(this, category.getCategoryName(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, CategoryProductsActivity.class);
+            intent.putExtra(CategoryProductsActivity.EXTRA_CATEGORY_ID, category.getCategoryId());
+            intent.putExtra(CategoryProductsActivity.EXTRA_CATEGORY_NAME, category.getCategoryName());
+            startActivity(intent);
         });
         rvCategories.setAdapter(categoryAdapter);
     }
 
-    private void loadTodayProducts() {
-        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        List<Product> products = db.productDao().getProductsByDate(today);
+    private String getToday() {
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+    }
 
-        // If no products for today, show all products
+    private void loadTodayProducts() {
+        String today = getToday();
+        List<Product> products = db.productDao().getProductsByDate(today, today);
+
+        // If no products for today, show all non-expired products
         if (products.isEmpty()) {
-            products = db.productDao().getAllProducts();
+            products = db.productDao().getAllProducts(today);
         }
 
         productAdapter = new ProductAdapter(this, products);
@@ -115,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 if (query.isEmpty()) {
                     loadTodayProducts();
                 } else {
-                    List<Product> results = db.productDao().searchProducts(query);
+                    List<Product> results = db.productDao().searchProducts(query, getToday());
                     productAdapter.updateList(results);
                 }
             }
@@ -149,9 +154,8 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 return true;
             } else if (itemId == R.id.nav_profile) {
-                // Logout
-                sessionManager.logout();
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, ProfileActivity.class));
+                overridePendingTransition(0, 0);
                 finish();
                 return true;
             }

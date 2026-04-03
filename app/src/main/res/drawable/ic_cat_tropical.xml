@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Pineapple body -->
+    <path
+        android:fillColor="#FF8F00"
+        android:pathData="M18,18 Q16,30 18,40 Q22,46 26,46 Q30,46 32,40 Q34,30 32,18 Q26,14 18,18Z" />
+    <!-- Diamond pattern -->
+    <path
+        android:fillColor="#FFB300"
+        android:pathData="M22,22 L25,25 L22,28 L19,25Z M28,22 L31,25 L28,28 L25,25Z M22,28 L25,31 L22,34 L19,31Z M28,28 L31,31 L28,34 L25,31Z M22,34 L25,37 L22,40 L19,37Z M28,34 L31,37 L28,40 L25,37Z" />
+    <!-- Crown leaves -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M25,18 Q22,6 18,4 Q22,10 23,16Z" />
+    <path
+        android:fillColor="#66BB6A"
+        android:pathData="M25,18 Q28,6 32,4 Q28,10 27,16Z" />
+    <path
+        android:fillColor="#388E3C"
+        android:pathData="M24,16 Q24,4 25,0 Q26,4 26,16Z" />
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M23,17 Q16,8 14,8 Q18,12 22,17Z" />
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M27,17 Q34,8 36,8 Q32,12 28,17Z" />
+</vector>

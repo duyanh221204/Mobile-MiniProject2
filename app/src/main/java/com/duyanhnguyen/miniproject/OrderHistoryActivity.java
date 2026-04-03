@@ -154,8 +154,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.nav_profile) {
-            sessionManager.logout();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, ProfileActivity.class));
+            overridePendingTransition(0, 0);
             finish();
             return true;
         }

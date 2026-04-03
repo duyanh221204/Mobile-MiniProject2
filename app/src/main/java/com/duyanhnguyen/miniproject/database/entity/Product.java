@@ -23,11 +23,12 @@ public class Product {
     private String description;
     private int categoryId;
     private String dateAdded;
+    private String expiryDate;
 
     public Product() {}
 
     public Product(String productName, double price, String unit, String imageUrl,
-                   String description, int categoryId, String dateAdded) {
+                   String description, int categoryId, String dateAdded, String expiryDate) {
         this.productName = productName;
         this.price = price;
         this.unit = unit;
@@ -35,6 +36,7 @@ public class Product {
         this.description = description;
         this.categoryId = categoryId;
         this.dateAdded = dateAdded;
+        this.expiryDate = expiryDate;
     }
 
     public int getProductId() { return productId; }
@@ -60,4 +62,7 @@ public class Product {
 
     public String getDateAdded() { return dateAdded; }
     public void setDateAdded(String dateAdded) { this.dateAdded = dateAdded; }
+
+    public String getExpiryDate() { return expiryDate; }
+    public void setExpiryDate(String expiryDate) { this.expiryDate = expiryDate; }
 }

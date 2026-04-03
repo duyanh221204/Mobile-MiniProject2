@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Strawberry -->
+    <path
+        android:fillColor="#F44336"
+        android:pathData="M24,14 Q38,18 36,30 Q34,42 24,44 Q14,42 12,30 Q10,18 24,14Z" />
+    <path
+        android:fillColor="#FFEB3B"
+        android:pathData="M20,24 A1,1 0 1,1 20,26 A1,1 0 1,1 20,24Z" />
+    <path
+        android:fillColor="#FFEB3B"
+        android:pathData="M28,24 A1,1 0 1,1 28,26 A1,1 0 1,1 28,24Z" />
+    <path
+        android:fillColor="#FFEB3B"
+        android:pathData="M24,30 A1,1 0 1,1 24,32 A1,1 0 1,1 24,30Z" />
+    <path
+        android:fillColor="#FFEB3B"
+        android:pathData="M20,34 A1,1 0 1,1 20,36 A1,1 0 1,1 20,34Z" />
+    <path
+        android:fillColor="#FFEB3B"
+        android:pathData="M28,34 A1,1 0 1,1 28,36 A1,1 0 1,1 28,34Z" />
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M24,15 Q18,8 14,10 Q18,14 22,15Z" />
+    <path
+        android:fillColor="#66BB6A"
+        android:pathData="M24,15 Q30,8 34,10 Q30,14 26,15Z" />
+    <path
+        android:fillColor="#388E3C"
+        android:pathData="M23,14 Q22,6 24,3 Q26,6 25,14Z" />
+</vector>
